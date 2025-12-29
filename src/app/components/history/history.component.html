@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+
+<div class="history-container">
+  <h2>Transaction History</h2>
+
+  <div *ngIf="loading" class="loading">
+    Loading transactions...
+  </div>
+
+  <table *ngIf="!loading && transactions.length > 0">
+    <thead>
+      <tr>
+        <th>Date & Time</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Balance After</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let tx of transactions">
+        <td>{{ tx.timestamp | date:'medium' }}</td>
+        <td>{{ tx.type }}</td>
+        <td>{{ tx.description }}</td>
+        <td>₹ {{ tx.amount }}</td>
+        <td>₹ {{ tx.account?.balance }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && transactions.length === 0" class="empty">
+    No transactions found.
+  </div>
+</div>

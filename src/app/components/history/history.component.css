@@ -1,0 +1,43 @@
+.history-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  color: #0b3d2e;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background-color: #0b3d2e;
+  color: white;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  margin-top: 40px;
+  color: #555;
+}
