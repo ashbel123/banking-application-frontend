@@ -3,25 +3,50 @@
 <div class="history-container">
   <h2>Transaction History</h2>
 
+  <!-- NEW: FILTER -->
+  <div class="filter">
+    <label>Filter:</label>
+    <select [(ngModel)]="selectedType" (change)="applyFilter()">
+      <option value="ALL">All</option>
+      <option value="DEPOSIT">Deposit</option>
+      <option value="WITHDRAW">Withdraw</option>
+      <option value="TRANSFER">Transfer</option>
+    </select>
+  </div>
+
   <div *ngIf="loading" class="loading">
     Loading transactions...
   </div>
 
-  <table *ngIf="!loading && transactions.length > 0">
+  <table *ngIf="!loading && paginatedTransactions.length > 0">
     <thead>
       <tr>
         <th>Date & Time</th>
         <th>Type</th>
         <th>Description</th>
         <th>Amount</th>
-        <th>Balance After</th>
+        <th>Remaining Balance</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let tx of transactions">
+      <tr *ngFor="let tx of paginatedTransactions">
         <td>{{ tx.timestamp | date:'medium' }}</td>
-        <td>{{ tx.type }}</td>
+
+        <!-- NEW: BADGE -->
+        <td>
+          <span
+            class="badge"
+            [ngClass]="{
+              deposit: tx.type === 'DEPOSIT',
+              withdraw: tx.type === 'WITHDRAW',
+              transfer: tx.type === 'TRANSFER'
+            }"
+          >
+            {{ tx.type }}
+          </span>
+        </td>
+
         <td>{{ tx.description }}</td>
         <td>₹ {{ tx.amount }}</td>
         <td>₹ {{ tx.account?.balance }}</td>
@@ -29,7 +54,14 @@
     </tbody>
   </table>
 
-  <div *ngIf="!loading && transactions.length === 0" class="empty">
+  <!-- NEW: PAGINATION -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+  <div *ngIf="!loading && paginatedTransactions.length === 0" class="empty">
     No transactions found.
   </div>
 </div>
